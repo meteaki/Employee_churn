@@ -111,10 +111,14 @@ st.write(' ')
 if st.button('Predict'):
     if int(pred[0]) == 0:
         st.success('This Employer will Stay')
-        st.balloons()
+        image_stay = Image.open("employee_stay.png")
+        st.image(image_stay,width=90)
+        #st.balloons()
     elif int(pred[0]) == 1:
         st.error('This Employer will Left')
-        st.snow() 
+        image_left = Image.open("employee_left.png")
+        st.image(image_left,width=100)
+        #st.snow() 
 
 
 
