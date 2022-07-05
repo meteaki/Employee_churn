@@ -90,18 +90,18 @@ my_dict_cat_enc = final_encoder.transform(my_dict_cat)
 
 cols = final_encoder.get_feature_names(['Departments'])
 
-my_dict_enc = my_dict_num.join(pd.DataFrame(my_dict_cat, my_dict_num.index, columns=cols))
+my_dict_enc = my_dict_num.join(pd.DataFrame(my_dict_cat_enc, my_dict_num.index, columns=cols))
 
 final_scaler = pickle.load(open('scaler.pkl', "rb"))
 
-my_dict_scaled = final_scaler.transform(my_dict_enc)
+my_dict_scale = final_scaler.transform(my_dict_enc)
 
-my_dict_scaled = pd.DataFrame(my_dict_scaled, columns = my_dict_enc.columns)
+my_dict_scaled = pd.DataFrame(my_dict_scale, columns = my_dict_enc.columns)
 
 if mlmodel == 'XGBoost':
     filename1 = "xgb.pkl"
     model = pickle.load(open(filename1, "rb"))
-    pred = model.predict(my_dict_scaled)
+    pred = model.predict(my_dict_scale)
 elif mlmodel == 'RandomForest':
     filename2 = 'rf.pkl'
     model = pickle.load(open(filename2, "rb"))
