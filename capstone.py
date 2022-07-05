@@ -4,6 +4,7 @@ import pandas as pd
 from PIL import Image
 import sklearn as sklearn
 import pickle
+from sklearn.preprocessing import OneHotEncoder
 
 st.set_page_config(layout="wide")
 image = Image.open("image.png")
@@ -80,14 +81,22 @@ my_dict['salary'] = my_dict['salary'].map(codes)
 my_dict['Work_accident'] = my_dict['Work_accident'].map(codes1)
 my_dict['promotion_last_5years'] = my_dict['promotion_last_5years'].map(codes1)
 
+final_encoder = pickle.load(open('encoder.pkl', 'rb'))
+my_dict_cat = my_dict[['Departments']]
 
-my_dict_dummy = pd.get_dummies(my_dict).reindex(columns=columns, fill_value=0)
+my_dict_num = my_dict.drop('Departments', axis=1)
+
+my_dict_cat_enc = final_encoder.transform(my_dict_cat)
+
+cols = final_encoder.get_feature_names(['Departments'])
+
+my_dict_enc = my_dict_num.join(pd.DataFrame(my_dict_cat, my_dict_num.index, columns=cols))
 
 final_scaler = pickle.load(open('scaler.pkl', "rb"))
 
-my_dict_scaled = final_scaler.transform(my_dict_dummy)
+my_dict_scaled = final_scaler.transform(my_dict_enc)
 
-my_dict_scaled = pd.DataFrame(my_dict_scaled, columns = my_dict_dummy.columns)
+my_dict_scaled = pd.DataFrame(my_dict_scaled, columns = my_dict_enc.columns)
 
 if mlmodel == 'XGBoost':
     filename1 = "xgb.pkl"
