@@ -5,6 +5,7 @@ from PIL import Image
 import sklearn as sklearn
 import pickle
 from sklearn.preprocessing import OneHotEncoder
+import IPython
 
 st.set_page_config(layout="wide")
 image = Image.open("image.png")
