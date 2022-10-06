@@ -69,11 +69,6 @@ columns=[
        'Departments_product_mng', 'Departments_sales', 'Departments_support',
        'Departments_technical']
 
-from IPython.core.display import HTML
-st.write(HTML(my_dict.iloc[:,:5].to_html(index=False, justify='left')))
-st.write(' ')
-st.write(HTML(my_dict.iloc[:,5:].to_html(index=False, justify='left')))
-
 codes = {'Low':0, 'Medium':1, 'High':2}
 codes1 = {'Yes':1, 'No':0}
 
